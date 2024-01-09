@@ -7,25 +7,39 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-class Person(Base):
-    __tablename__ = 'person'
+class User(Base):
+    __tablename__ = 'user'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    last_name = Column(String(250), nullable=False)
+    email = Column(String(250), unique= True)
+    password = Column(String(250), nullable=False)
+    subscription_date = Column(Integer, nullable=False)
 
-class Address(Base):
-    __tablename__ = 'address'
+class Character(Base):
+    __tablename__ = 'character'
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+    name = Column(String(250))
+    status = Column(String(250))
+    species = Column(String(250), nullable=False)
+    gender = Column(String(250), nullable=False)
+    ##character_id = Column(Integer, primary_key=True)
+    
 
-    def to_dict(self):
+
+class Favoritecharacter(Base):   
+   __tablename__ = 'favoritecharacter'
+   id = Column(Integer, primary_key=True)
+   id_user = Column(Integer, ForeignKey('user.id')) # Marca el id del usuario que selecciona un personaje como favorito
+   user = relationship(User)
+   id_character = Column(Integer, ForeignKey('character.id')) # Marca el id del personaje que ha sido seleccionado como favorito
+   character = relationship(Character)
+
+def to_dict(self):
         return {}
 
 ## Draw from SQLAlchemy base
