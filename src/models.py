@@ -23,11 +23,20 @@ class Character(Base):
     # Here we define columns for the table address.
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
+    character_id = Column(Integer, primary_key=True)
     name = Column(String(250))
     status = Column(String(250))
     species = Column(String(250), nullable=False)
     gender = Column(String(250), nullable=False)
-    ##character_id = Column(Integer, primary_key=True)
+   
+
+class CharacterEpisodeAndLocation(Base):
+     __tablename__ = 'characterepisodeandlocation'
+     id = Column (Integer, primary_key= True)
+     id_character = Column (Integer, ForeignKey('character.character_id'))
+     episode= Column(String, nullable= False)
+     location=  Column(String, nullable=False)
+     character= relationship(Character)
     
 
 
